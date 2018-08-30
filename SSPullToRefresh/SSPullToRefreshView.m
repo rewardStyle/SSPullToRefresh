@@ -362,7 +362,13 @@
 	}
     
 	// Get the offset out of the change notification
-	CGFloat y = [[change objectForKey:NSKeyValueChangeNewKey] CGPointValue].y + self.defaultContentInset.top;
+	CGFloat safeAreaInset = 0;
+	
+	if (@available(iOS 11.0, *)) {
+		safeAreaInset = self.scrollView.safeAreaInsets.top;
+	}
+	
+	CGFloat y = [[change objectForKey:NSKeyValueChangeNewKey] CGPointValue].y + self.defaultContentInset.top + safeAreaInset;
 
 	// Scroll view is dragging
 	if (self.scrollView.isDragging) {
